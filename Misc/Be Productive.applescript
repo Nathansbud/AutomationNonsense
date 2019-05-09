@@ -2,11 +2,21 @@ set appList to {"PyCharm", "IntelliJ Idea", "iTunes", "Terminal", "GitHub Deskto
 
 set whitelist to {"Script Editor"}
 
-repeat with a in appList
-	if a is not in whitelist then
-		tell application a to quit
-	end if
+--tell application "System Events"
+--	repeat with processID in appList
+--		if processID is not in whitelist then
+--			if unix id of processID is in processes then
+--				do shell script "kill -9 " & unix id of process processID
+--			end if
+--		end if
+--	end repeat
+--end tell
+
+repeat with theApp in appList
+	tell application theApp to quit
 end repeat
+
+do shell script "sudo ~/Code/PythonNonsense/site_blocker.py"
 
 tell application "Notes"
 	activate
