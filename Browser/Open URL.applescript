@@ -4,12 +4,14 @@ tell application "Google Chrome"
 		set tr to (text returned of gotoInfo)
 		if my ContainsEnding(tr) then
 			if tr starts with "http" then
-				open location (text returned of gotoInfo)
+				open location tr
 			else
-				open location "https://" & (text returned of gotoInfo)
+				open location "https://" & tr
 			end if
+		else if tr starts with "/r/" then
+			open location "https://reddit.com" & tr
 		else
-			open location "https://" & (text returned of gotoInfo) & ".com"
+			open location "https://" & tr & ".com"
 		end if
 		
 	else if button returned of gotoInfo is "Search" then
