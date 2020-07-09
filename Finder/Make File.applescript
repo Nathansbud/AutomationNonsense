@@ -4,8 +4,6 @@ tell application "Finder"
 	end if
 end tell
 
-
-
 tell application "System Events"
 	activate
 	try
@@ -17,16 +15,22 @@ tell application "System Events"
 			tell application "Finder"
 				set theName to (item 1 of templateFile)
 				if (exists Finder window 1) then
-					set currentDir to target of Finder window 1 as alias
+					set currentDir to POSIX path of target of Finder window 1
 				else
-					set currentDir to desktop as alias
+					set currentDir to POSIX path of (path to desktop)
 				end if
-				make new file at currentDir with properties {name:(item 1 of templateFile)}
-				--set asdadw to POSIX path of (alias of ((currentDir as text) & theName)) --nothing works fml
+				
+				set createFile to (open for access currentDir & theName with write permission)
+				set eof createFile to 0
+				
+				repeat with theLines in my GetLines(theName)
+					write theLines & return to createFile starting at eof
+				end repeat
+				close access createFile
 			end tell
 		end if
-	on error
-		set theFailure to "no, this point"
+	on error thisError
+		log thisError
 	end try
 end tell
 
@@ -62,14 +66,10 @@ on DoesExist(thePath, theFile)
 	end try
 end DoesExist
 
-on MakeTemplate(thePath, theName)
-	try
-		set theLines to {"__pycache__/", ".idea/", "credentials/", "venv/"}
-		
-		repeat with theItem in theLines
-			
-		end repeat
-	on error
-		set adiwaodhaw to "inthefunc"
-	end try
-end MakeTemplate
+on GetLines(theTemplate)
+	if theTemplate = ".gitignore" then
+		return {"__pycache__/", ".idea/", "credentials/", "venv/"}
+	else
+		return {}
+	end if
+end GetLines

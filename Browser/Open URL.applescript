@@ -12,7 +12,7 @@ tell application "Google Chrome"
 				end if
 			else if tr starts with "/r/" then
 				open location "https://reddit.com" & tr
-			else if tr starts with "/d/" then
+			else if tr starts with "d/" then
 				open location "https://docs.google.com/spreadsheets/" & tr
 			else
 				open location "https://" & tr & ".com"
