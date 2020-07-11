@@ -15,7 +15,7 @@ tell application "System Events"
 			tell application "Finder"
 				set theName to (item 1 of templateFile)
 				if (exists Finder window 1) then
-					set currentDir to POSIX path of target of Finder window 1
+					set currentDir to POSIX path of (target of Finder window 1 as alias)
 				else
 					set currentDir to POSIX path of (path to desktop)
 				end if
